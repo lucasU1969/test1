@@ -13,4 +13,4 @@ coordY :: Point -> Int
 coordY (Poi _ y) = y
 
 difP :: Point -> Point -> Float  -- distancia absoluta
-difP p1 p2 = sqrt ((((coordX p1) - (coordX p2))**2) +(((coordY p1) - (coordY p2))**2))
+difP p1 p2 = sqrt ((fromIntegral ((coordX p1) - (coordX p2))**2) +(fromIntegral ((coordY p1) - (coordY p2))**2))
