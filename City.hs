@@ -1,14 +1,20 @@
 module City ( City, newC, nameC, distanceC )
    where
-import Point
+
+import Point 
+
 data City = Cit String Point deriving (Eq, Show)
 
 newC :: String -> Point -> City
 newC name location = Cit name location
 
+
 nameC :: City -> String
 nameC (Cit name _) = name
 
-distanceC :: City -> City -> Float
+pointC :: City -> Point
+pointC (Cit _ point) = point
 
---baires = Cit "Buenos Aires" 
+
+distanceC :: City -> City -> Float
+distanceC city1 city2 = difP (pointC city1) (pointC city2)
