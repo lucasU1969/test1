@@ -7,7 +7,7 @@ import City
 data Tunel = Tun [Link] deriving (Eq, Show)
 
 newT :: [Link] -> Tunel
-newT links = Tun links
+newT = Tun
 
 connectsT :: City -> City -> Tunel -> Bool -- inidca si este tunel conceta estas dos ciudades distintas
 {-connectsT city1 city2 tunel = if length([link | link <-tunel, linksL city1 city2 link]) >= 1 then True else False
