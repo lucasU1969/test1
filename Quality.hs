@@ -4,7 +4,8 @@ module Quality ( Quality, newQ, capacityQ, delayQ )
 data Quality = Qua String Int Float deriving (Eq, Show)
 
 newQ :: String -> Int -> Float -> Quality
-newQ material capacity delay = Qua material capacity delay
+--newQ material capacity delay = Qua material capacity delay
+newQ = Qua
 {-
 preguntar si conviene crear la clase material con opciones de material
 -}
