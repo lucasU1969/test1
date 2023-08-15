@@ -9,7 +9,7 @@ data Region = Reg [City] [Link] [Tunel]
 newR :: Region
 newR Cit (city) Lin (link) Tun (tunel) = Reg city link tunel
 foundR :: Region -> City -> Region -- agrega una nueva ciudad a la región
-foundR (Reg  cities _ _) new_city | [city| city <- cities, city == new_city] = (Reg [cities] _ _)
+foundR (Reg  cities _ _) new_city | length([city| city <- cities, city == new_city])>= 1 = (Reg [cities] _ _)
                                   | otherwhise cities: new_city
 
 --linkR :: Region -> City -> City -> Quality -> Region -- enlaza dos ciudades de la región con un enlace de la calidad indicada
