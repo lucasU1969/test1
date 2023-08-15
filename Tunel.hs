@@ -19,6 +19,7 @@ usesT :: Link -> Tunel -> Bool  -- indica si este tunel atraviesa ese link
 usesT link (Tun links) = elem link links
 
 delayT :: Tunel -> Float -- la demora que sufre una conexion en este tunel
-delayT t = 1.2{-esto lo hice asi nomas para que no tire error 
--}
+--delayT t = 1.2{-esto lo hice asi nomas para que no tire error 
+--}
 {-vamos a hacer que devuelelva la demora de algun link aleatorio del tunel-}
+delayT (Tun links) = foldr (\link acumm -> (+) (delayL link) acumm) 0 links
