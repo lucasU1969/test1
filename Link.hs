@@ -1,4 +1,4 @@
-module Link ( Link, newL, linksL, connectsL, capacityL, delayL, eqL, citiesinL )
+module Link ( Link, newL, linksL, connectsL, capacityL, delayL )
    where
 import Quality
 import City
@@ -20,9 +20,3 @@ capacityL (Lin _ _ quality) = capacityQ quality
 
 delayL :: Link -> Float     -- la demora que sufre una conexion en este canal
 delayL (Lin c1 c2 quality) = (delayQ quality) * (distanceC c1 c2)
-
-eqL :: Link -> Link -> Bool
-eqL (Lin c1 c2 _) link = linksL c1 c2 link
-
-citiesinL :: Link -> [City]
-citiesinL (Lin city1 city2 _) = [city1, city2]
