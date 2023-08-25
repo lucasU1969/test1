@@ -1,4 +1,4 @@
-module Region ( Region, newR, foundR, linkR, tunelR, connectedR, linkedR, delayR, availableCapacityForR )
+module Region2 ( Region, newR, foundR, linkR, tunelR, connectedR, linkedR, delayR, availableCapacityForR )
    where
 
 import City
@@ -15,6 +15,8 @@ newR = Reg [] [] []
 
 foundR :: Region -> City -> Region -- agrega una nueva ciudad a la región
 foundR (Reg cities links tunnels) city | elem city cities = error "la ciudad ya existe"
+                                       | foldr ((||).(== 0).(distanceC city)) False cities = error "ya hay una ciudad en esa ubicacion dentro de la region."
+                                       | foldr ((||).(== nameC city).(nameC)) False cities = error "ya hay una ciudad en la region con el nombre."
                                        | otherwise = Reg (city:cities) links tunnels
 
 linkR :: Region -> City -> City -> Quality -> Region -- enlaza dos ciudades de la región con un enlace de la calidad indicada
@@ -31,36 +33,49 @@ connectedR (Reg _ _ tunels) c0 c1 = foldr ((||).(connectsT c0 c1)) False tunels
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg _ links _ ) c0 c1 = foldr ((||).(linksL c0 c1)) False links
 
-delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora
-delayR (Reg cities links tunnels) c0 c1 | not ((elem c0 cities) && (elem c1 cities)) = error "las ciudades no se encuentran en la región."
-                                    | not (connectedR (Reg cities links tunnels) c0 c1) = error "no existe un tunel que conecte las ciudades."
-                                    | otherwise =  head [delayT tunel| tunel<-tunnels, connectsT c0 c1 tunel]
+delayR :: Region -> City -> City -> Float 
+delayR region c0 c1 | not (verifycityinR region c0 && verifycityinR region c1) = error "las ciudades no esetan en la región."
+                    | not (connectedR region c0 c1) = error "no existe un tunel que conecte las ciudades."
+                    | otherwise = head [delayT tunel| tunel<-(tunnelsinR region), connectsT c0 c1 tunel]
 
-availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades
-availableCapacityForR (Reg cities links tunels) c0 c1 | not (elem c0 cities && elem c1 cities) = error "las cidades no estan en la region."
-                                                      | not (linkedR (Reg cities links tunels) c0 c1) = error "el enlace no existe. "
-                                                      | otherwise = getcapacitybtwnR c0 c1 links - countTunnelsUsingR c0 c1 tunels
+availableCapacityForR :: Region -> City -> City -> Int 
+availableCapacityForR region c0 c1 | not (verifycityinR region c0 && verifycityinR region c0) = error "las ciudades no esetan en la región."
+                                   | not (linkedR region c0 c1) = error "el enlace entre las ciudades no existe."
+                                   | otherwise = totalCapacity region c0 c1 - usedCapacity region c0 c1
 
-countTunnelsUsingR :: City -> City -> [Tunel] -> Int
-countTunnelsUsingR c1 c2 [] = 0
-countTunnelsUsingR city1 city2  (x:xs) | usesT (newL city1 city2 (newQ "" 1 1)) x = 1 + countTunnelsUsingR city1 city2 xs
-                                       | otherwise = countTunnelsUsingR city1 city2 xs
+totalCapacity :: Region -> City -> City -> Int
+totalCapacity (Reg _ links _) c0 c1 = head [capacityL link | link<-links, linksL c0 c1 link]
 
-getcapacitybtwnR :: City -> City -> [Link] -> Int
-getcapacitybtwnR city1 city2 links = head [capacityL link | link<-links, linksL city1 city2 link]
+usedCapacity :: Region -> City -> City -> Int
+usedCapacity (Reg _ _ []) c0 c1 = 0
+usedCapacity (Reg cs ls (t0:ts)) c0 c1 | usesT (newL c0 c1 (newQ "" 1 1)) t0 = 1 + usedCapacity (Reg cs ls ts) c0 c1
+                                       | otherwise = usedCapacity (Reg cs ls ts) c0 c1
 
 getlinkconnectingR :: City -> City -> [Link] -> Link
 getlinkconnectingR c0 c1 links = head [link | link<-links , linksL c0 c1 link]
 
-constructtunelR :: Region -> [City] -> [Link]
-constructtunelR region [] = []
-constructtunelR region [c0] = error "no hay tunel entre una sola ciudad"
-constructtunelR (Reg cities links tunels) [c0, c1] = [getlinkconnectingR c0 c1 links]
-constructtunelR (Reg cities links tunels) (c0:(c1:cs)) | not (elem c0 cities && elem c1 cities) = error "no todas las ciudades se encuentran en la region"
-                                                       | not (linkedR (Reg cities links tunels) c0 c1) = error "los enlaces no existen."
-                                                       | availableCapacityForR (Reg cities links tunels) c0 c1 == 0 = error "los enlaces no soportan el tunel."
-                                                       | otherwise = (getlinkconnectingR c0 c1 links: constructtunelR (Reg cities links tunels) (c1:cs))
-
 addtuneltoR :: Region -> [Link] -> Region 
 addtuneltoR region [] = region
 addtuneltoR (Reg cities ls tunels) links = (Reg cities ls ((newT links):tunels))
+
+citiesinR :: Region -> [City]
+citiesinR (Reg cities _ _) = cities
+
+linksinR :: Region -> [Link]
+linksinR (Reg _ links _) =  links
+
+tunnelsinR :: Region -> [Tunel]
+tunnelsinR (Reg _ _ tunnels) = tunnels
+
+constructtunelR :: Region -> [City] -> [Link]
+constructtunelR region [] = []
+constructtunelR region [c0] = error "no puede haber un tunel entre una sola ciudad."
+constructtunelR region [c0, c1] = [getlinkconnectingR c0 c1 (linksinR region)]
+constructtunelR region (c0:(c1:cs)) | not (verifycityinR region c0 && verifycityinR region c1) = error "no todas las ciudades se encuentran en la region"
+                                    | not (linkedR region c0 c1) = error "los enlaces no existen."
+                                    | availableCapacityForR region c0 c1 == 0 = error "los enlaces no soportan el tunel."
+                                    | otherwise = (getlinkconnectingR c0 c1 (linksinR region): constructtunelR region (c1:cs))
+
+
+verifycityinR :: Region -> City -> Bool
+verifycityinR region city = elem city (citiesinR region) 
