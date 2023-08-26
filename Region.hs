@@ -48,7 +48,7 @@ totalCapacity (Reg _ links _) c0 c1 = head [capacityL link | link<-links, linksL
 
 usedCapacity :: Region -> City -> City -> Int
 usedCapacity (Reg _ _ []) c0 c1 = 0
-usedCapacity (Reg cs ls (t0:ts)) c0 c1 | usesT (newL c0 c1 (newQ "" 1 1)) t0 = 1 + usedCapacity (Reg cs ls ts) c0 c1
+usedCapacity (Reg cs ls (t0:ts)) c0 c1 | usesT (newL c0 c1 (newQ "a" 1 1)) t0 = 1 + usedCapacity (Reg cs ls ts) c0 c1
                                        | otherwise = usedCapacity (Reg cs ls ts) c0 c1
 
 getlinkconnectingR :: City -> City -> [Link] -> Link
