@@ -33,12 +33,12 @@ connectedR (Reg _ _ tunels) c0 c1 = foldr ((||).(connectsT c0 c1)) False tunels
 linkedR :: Region -> City -> City -> Bool -- indica si estas dos ciudades estan enlazadas
 linkedR (Reg _ links _ ) c0 c1 = foldr ((||).(linksL c0 c1)) False links
 
-delayR :: Region -> City -> City -> Float 
+delayR :: Region -> City -> City -> Float -- dadas dos ciudades conectadas, indica la demora 
 delayR region c0 c1 | not (verifycityinR region c0 && verifycityinR region c1) = error "las ciudades no esetan en la región."
                     | not (connectedR region c0 c1) = error "no existe un tunel que conecte las ciudades."
                     | otherwise = head [delayT tunel| tunel<-(tunnelsinR region), connectsT c0 c1 tunel]
 
-availableCapacityForR :: Region -> City -> City -> Int 
+availableCapacityForR :: Region -> City -> City -> Int -- indica la capacidad disponible entre dos ciudades 
 availableCapacityForR region c0 c1 | not (verifycityinR region c0 && verifycityinR region c0) = error "las ciudades no esetan en la región."
                                    | not (linkedR region c0 c1) = error "el enlace entre las ciudades no existe."
                                    | otherwise = totalCapacity region c0 c1 - usedCapacity region c0 c1
@@ -74,8 +74,8 @@ constructtunelR region [c0, c1] = [getlinkconnectingR c0 c1 (linksinR region)]
 constructtunelR region (c0:(c1:cs)) | not (verifycityinR region c0 && verifycityinR region c1) = error "no todas las ciudades se encuentran en la region"
                                     | not (linkedR region c0 c1) = error "los enlaces no existen."
                                     | availableCapacityForR region c0 c1 == 0 = error "los enlaces no soportan el tunel."
+                                    | c0 == (last cs) = error "No se puede hacer un tunel que empiece y termine en una ciudad."
                                     | otherwise = (getlinkconnectingR c0 c1 (linksinR region): constructtunelR region (c1:cs))
-
 
 verifycityinR :: Region -> City -> Bool
 verifycityinR region city = elem city (citiesinR region) 
