@@ -4,10 +4,10 @@ module Quality ( Quality, newQ, capacityQ, delayQ )
 data Quality = Qua String Int Float deriving (Eq, Show)
 
 newQ :: String -> Int -> Float -> Quality
-newQ material capacity delay = Qua material capacity delay
-{-
-preguntar si conviene crear la clase material con opciones de material
--}
+newQ material capacity delay | material == "" = error "Se debe especificar un material."
+                             | capacity < 0 = error "la capacidad de una calidad no puede ser menor a 0."
+                             | delay < 0 = error "la demora de una calidad no puede ser menor a 0."
+                             | otherwise = Qua material capacity delay
 
 capacityQ :: Quality -> Int -- cuantos túneles puede tolerar esta conexión
 capacityQ (Qua _ capacity _) = capacity
