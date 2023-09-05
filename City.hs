@@ -17,3 +17,5 @@ pointC (Cit _ point) = point
 
 distanceC :: City -> City -> Float
 distanceC city1 city2 = difP (pointC city1) (pointC city2)
+
+//probando
