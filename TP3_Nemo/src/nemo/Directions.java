@@ -1,5 +1,6 @@
 package nemo;
 
+
 public abstract class Directions {
     //public abstract String moveForward();
 
@@ -21,5 +22,4 @@ public abstract class Directions {
 
     public abstract Directions turnLeft();
     public abstract Directions turnRight();
-
 }

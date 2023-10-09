@@ -1,17 +1,17 @@
 package nemo;
 
 
+
 public class Nemo {
 	private int xCoordinate;
 	private int yCoordinate;
 	private int zCoordinate = 0;
 	private Directions direction;
-	private boolean isCapsuleinNemo = true;
+	private CapsuleLauncher capsuleLauncher = new LoadedCapsuleLauncher();
 	public Nemo(int newXCoordinate, int newYCoordinate, Directions newDirection) {
 		xCoordinate = newXCoordinate;
 		yCoordinate = newYCoordinate;
 		direction = newDirection;
-
 	}
 
 	public void moveUpward() {
@@ -92,18 +92,17 @@ public class Nemo {
 			launchCapsule();
 		}
 	}
-
+	
 	public boolean isCapsuleInNemo() {
-		return isCapsuleinNemo;
+		return capsuleLauncher.isLoaded();
 	}
+
 	public void launchCapsule() {
-		if (isCapsuleinNemo && zCoordinate >= -1) {
-			isCapsuleinNemo = false;
-		} else if (isCapsuleinNemo && zCoordinate < -1) {
+		if (zCoordinate <-1) {
 			throw new RuntimeException("Nemo cannot launch the capsule this deep.");
-		} else if (!isCapsuleinNemo) {
-			throw new RuntimeException("Nemo cannot launch the capsule twice.");
 		}
+		capsuleLauncher.launch();
+		capsuleLauncher = new EmptyCapsuleLaucher();
 	}
 
 }
