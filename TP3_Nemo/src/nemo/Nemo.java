@@ -20,6 +20,7 @@ public class Nemo {
 		} else {
 			zCoordinate = 0;
 		}
+		else zCoordinate = 0;
 	}
 	public void moveDownward(){
 		zCoordinate--;
