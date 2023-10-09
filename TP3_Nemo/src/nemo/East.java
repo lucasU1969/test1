@@ -1,5 +1,6 @@
 package nemo;
 
+
 public class East extends Directions {
 
     public Directions turnLeft(){
@@ -12,5 +13,13 @@ public class East extends Directions {
 
     public String toString(){
         return "East";
+    }
+
+    public int changeInXAxis() {
+    	return 1;
+    }
+    
+    public int changeInYAxis() {
+    	return 0;
     }
 }

@@ -13,4 +13,12 @@ public class North extends Directions {
     public String toString(){
         return "North";
     }
+    
+    public int changeInXAxis() {
+    	return 0;
+    }
+    
+    public int changeInYAxis() {
+    	return 1;
+    }
 }

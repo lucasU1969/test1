@@ -1,16 +1,14 @@
 package nemo;
 
 
-
 public class Nemo {
-	private int xCoordinate;
-	private int yCoordinate;
 	private int zCoordinate = 0;
+	private int[] pos;
 	private Directions direction;
 	private CapsuleLauncher capsuleLauncher = new LoadedCapsuleLauncher();
+	
 	public Nemo(int newXCoordinate, int newYCoordinate, Directions newDirection) {
-		xCoordinate = newXCoordinate;
-		yCoordinate = newYCoordinate;
+		pos = new int[] {newXCoordinate, newYCoordinate};
 		direction = newDirection;
 	}
 
@@ -26,15 +24,8 @@ public class Nemo {
 	}
 
 	public void moveForward() {
-		if (direction.toString().equals(Directions.north().toString())) {
-			yCoordinate++;
-		} else if (direction.toString().equals(Directions.south().toString())) {
-			yCoordinate--;
-		} else if (direction.toString().equals(Directions.east().toString())) {
-			xCoordinate++;
-		} else if (direction.toString().equals(Directions.west().toString())) {
-			xCoordinate--;
-		}
+		pos = new int[] {getXCoordinate() + direction.changeInXAxis(), getYCoordinate() + direction.changeInYAxis()};
+		
 	}
 
 	public void turnLeft() {
@@ -47,11 +38,11 @@ public class Nemo {
 
 
 	public int getXCoordinate() {
-		return xCoordinate;
+		return pos[0];
 	}
 
 	public int getYCoordinate() {
-		return yCoordinate;
+		return pos[1];
 	}
 
 	public int getZCoordinate() {
@@ -67,13 +58,14 @@ public class Nemo {
 	}
 
 	public void command(String commands) {
+//		Arrays.asList(commands).forEach(command -> executeAction(command));
 		for (int i = 0; i < commands.length(); i++) {
 			this.executeAction(commands.substring(i, i+1));
 		}
 	}
 
 	public void executeAction(String command) {
-		if (command.equals("u")) {
+		if (command.equals("u") ) {
 			moveUpward();
 		}
 		if (command.equals("d")) {
