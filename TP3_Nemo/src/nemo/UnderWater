@@ -1,0 +1,17 @@
+package nemo;
+
+public class UnderWater extends Depth{
+    public Depth moveUpward(){
+        return this;
+    }
+    public Depth moveDownward(){
+        return new Deep();
+    }
+//    public boolean launchCapsule(){
+//        isCapsuleInNemo = isCapsuleInNemo();
+//        return true;
+//    }
+//    public boolean isCapsuleInNemo(){
+//        return false;
+//    }
+}
