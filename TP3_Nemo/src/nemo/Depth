@@ -1,0 +1,9 @@
+package nemo;
+
+public abstract class Depth {
+//    public abstract boolean isCapsuleInNemo();
+    public abstract Depth moveUpward();
+    public abstract Depth moveDownward();
+//    public abstract boolean launchCapsule();
+
+}
