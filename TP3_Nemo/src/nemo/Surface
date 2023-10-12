@@ -1,0 +1,22 @@
+package nemo;
+
+import java.util.ArrayList;
+
+public class Surface extends Depth{
+
+    public Depth moveUpward(){
+        return null;
+    }
+    public Depth moveDownward(){
+        return new UnderWater();
+
+    }
+//    public boolean launchCapsule(){
+//        isCapsuleInNemo = isCapsuleInNemo();
+//        return true;
+//    }
+//    public boolean isCapsuleInNemo(){
+//        return false;
+//    }
+
+}
