@@ -1,0 +1,17 @@
+package nemo;
+
+
+public class Deep extends Depth{
+    public Depth moveUpward(){
+        return this;
+    }
+    public Depth moveDownward(){
+        return new Deep();
+    }
+//    public boolean launchCapsule(){
+//        throw new RuntimeException("Nemo cannot launch the capsule this deep.");
+//    }
+//    public boolean isCapsuleInNemo(){
+//        return false;
+//    }
+}
