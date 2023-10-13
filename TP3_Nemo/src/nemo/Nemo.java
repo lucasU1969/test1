@@ -60,26 +60,26 @@ public class Nemo {
 	}
 
 	public void command(String commands) {
-		commands.chars().forEach(command -> this.executeAction(String.valueOf((char) command)));
+		commands.chars().forEach(command -> executeThisCommand((char) command));
 	}
-
-	public void executeAction(String command) {
-		if (command.equals("u") ) {
+	
+	public void executeThisCommand(char command) {
+		if (command == 'u') {
 			moveUpward();
 		}
-		if (command.equals("d")) {
+		if (command == 'd') {
 			moveDownward();
 		}
-		if (command.equals("l")) {
+		if (command == 'l') {
 			turnLeft();
 		}
-		if (command.equals("r")) {
+		if (command == 'r') {
 			turnRight();
 		}
-		if (command.equals("f")) {
+		if (command == 'f') {
 			moveForward();
 		}
-		if (command.equals("m")) {
+		if (command == 'm') {
 			launchCapsule();
 		}
 	}
