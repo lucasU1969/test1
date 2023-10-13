@@ -60,9 +60,7 @@ public class Nemo {
 	}
 
 	public void command(String commands) {
-		for (int i = 0; i < commands.length(); i++) {
-			this.executeAction(commands.substring(i, i+1));
-		}
+		commands.chars().forEach(command -> this.executeAction(String.valueOf((char) command)));
 	}
 
 	public void executeAction(String command) {
