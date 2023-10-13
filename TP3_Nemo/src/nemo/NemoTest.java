@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 public class NemoTest {
 
 	@Test public void test00NemoIsOnTheSurfaceWhenCreated() {
-
 		assertTrue(new Nemo(0,0, Directions.north()).isOnTheSurface());
-
 	}
 
 	@Test public void test01CordinatesAreCorrectWhenNemoIsCreated() {
@@ -90,6 +88,12 @@ public class NemoTest {
 		nemo.command("m");
 		assertEquals("Nemo cannot launch the capsule twice.", assertThrows(RuntimeException.class, () -> nemo.command("m")).getMessage());
 		assertFalse(nemo.isCapsuleInNemo());
+	}
+	
+	@Test public void test14UpAndDownWorksCorrectly() {
+		Nemo nemo = new Nemo(0, 0, Directions.north());
+		nemo.command("ddddddddddduuu");
+		assertEquals(-8, nemo.getZCoordinate());
 	}
 
 }

@@ -1,28 +1,30 @@
 package nemo;
 
+import java.util.ArrayList;
 
 public class Nemo {
-	private int zCoordinate = 0;
 	private int[] pos;
 	private Directions direction;
+	private ArrayList<Depth> depth = new ArrayList<Depth>();
 	private CapsuleLauncher capsuleLauncher = new LoadedCapsuleLauncher();
 	
 	public Nemo(int newXCoordinate, int newYCoordinate, Directions newDirection) {
 		pos = new int[] {newXCoordinate, newYCoordinate};
+		depth.add(new Surface());
 		direction = newDirection;
 	}
 
 	public void moveUpward() {
-		if (zCoordinate != 0) {
-			zCoordinate++;
-		} else {
-			zCoordinate = 0;
-		}
+		depth.remove( depth.get(depth.size() - 1 ).moveUpwards());
 	}
+	
 	public void moveDownward(){
-		zCoordinate--;
+		depth.add(depth.get(depth.size() - 1).moveDownwards());
 	}
-
+	
+	public Depth getCurrentDepthState() {
+		return depth.get(depth.size() - 1);
+	}
 	public void moveForward() {
 		pos = new int[] {getXCoordinate() + direction.changeInXAxis(), getYCoordinate() + direction.changeInYAxis()};
 		
@@ -46,7 +48,7 @@ public class Nemo {
 	}
 
 	public int getZCoordinate() {
-		return zCoordinate;
+		return (depth.size() - 1) * (-1);
 	}
 
 	public Directions getDirection() {
@@ -54,11 +56,10 @@ public class Nemo {
 	}
 	
 	public boolean isOnTheSurface() {
-		return zCoordinate == 0;
+		return depth.size()  ==  1;
 	}
 
 	public void command(String commands) {
-//		Arrays.asList(commands).forEach(command -> executeAction(command));
 		for (int i = 0; i < commands.length(); i++) {
 			this.executeAction(commands.substring(i, i+1));
 		}
@@ -90,9 +91,7 @@ public class Nemo {
 	}
 
 	public void launchCapsule() {
-		if (zCoordinate <-1) {
-			throw new RuntimeException("Nemo cannot launch the capsule this deep.");
-		}
+		depth.get(depth.size() -1).launchCapsule();
 		capsuleLauncher.launch();
 		capsuleLauncher = new EmptyCapsuleLaucher();
 	}

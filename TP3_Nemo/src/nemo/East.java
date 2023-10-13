@@ -1,6 +1,5 @@
 package nemo;
 
-
 public class East extends Directions {
 
     public Directions turnLeft(){
