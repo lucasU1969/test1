@@ -1,24 +1,28 @@
 package nemo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Nemo {
 	private int[] pos;
 	private Directions direction;
 	private ArrayList<Depth> depth = new ArrayList<Depth>();
+	private List<Directions> cardinalPoints = List.of(Directions.north(), Directions.south(), Directions.east(), Directions.west());
+	private List<Commands> commands = List.of( Commands.moveUpwards(), Commands.moveDownwards(), Commands.moveForward(), Commands.turnLeft(), Commands.turnRight(), Commands.launchCapsule());
+	private List<Runnable> moves = List.of( () -> moveUpwards(), ()-> moveDownwards(), () -> moveForward(), () -> turnLeft() , () -> turnRight(), () -> launchCapsule());
 	private CapsuleLauncher capsuleLauncher = new LoadedCapsuleLauncher();
 	
-	public Nemo(int newXCoordinate, int newYCoordinate, Directions newDirection) {
+	public Nemo(int newXCoordinate, int newYCoordinate, String newDirection) {
+		direction = cardinalPoints.stream().filter(each -> each.toString().equals(newDirection)).findFirst().get();
 		pos = new int[] {newXCoordinate, newYCoordinate};
 		depth.add(new Surface());
-		direction = newDirection;
 	}
 
-	public void moveUpward() {
+	public void moveUpwards() {
 		depth.remove( depth.get(depth.size() - 1 ).moveUpwards());
 	}
 	
-	public void moveDownward(){
+	public void moveDownwards(){
 		depth.add(depth.get(depth.size() - 1).moveDownwards());
 	}
 	
@@ -51,8 +55,8 @@ public class Nemo {
 		return (depth.size() - 1) * (-1);
 	}
 
-	public Directions getDirection() {
-		return direction;
+	public String getDirection() {
+		return direction.toString();
 	}
 	
 	public boolean isOnTheSurface() {
@@ -64,24 +68,8 @@ public class Nemo {
 	}
 	
 	public void executeThisCommand(char command) {
-		if (command == 'u') {
-			moveUpward();
-		}
-		if (command == 'd') {
-			moveDownward();
-		}
-		if (command == 'l') {
-			turnLeft();
-		}
-		if (command == 'r') {
-			turnRight();
-		}
-		if (command == 'f') {
-			moveForward();
-		}
-		if (command == 'm') {
-			launchCapsule();
-		}
+		moves.get(commands.indexOf(commands.stream().filter(each -> each.getCommandAsChar() == command).findFirst().get())).run();
+
 	}
 	
 	public boolean isCapsuleInNemo() {
