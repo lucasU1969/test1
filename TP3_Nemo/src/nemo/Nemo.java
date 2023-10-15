@@ -19,19 +19,15 @@ public class Nemo {
 	}
 
 	public void moveUpwards() {
-		depth.remove( depth.get(depth.size() - 1 ).moveUpwards());
+		depth.remove( getCurrentDepthState().moveUpwards() );
 	}
 	
 	public void moveDownwards(){
-		depth.add(depth.get(depth.size() - 1).moveDownwards());
+		depth.add( getCurrentDepthState().moveDownwards() );
 	}
 	
-	public Depth getCurrentDepthState() {
-		return depth.get(depth.size() - 1);
-	}
 	public void moveForward() {
-		pos = new int[] {getXCoordinate() + direction.changeInXAxis(), getYCoordinate() + direction.changeInYAxis()};
-		
+		pos = new int[] { getXCoordinate() + direction.changeInXAxis(), getYCoordinate() + direction.changeInYAxis() };
 	}
 
 	public void turnLeft() {
@@ -41,7 +37,6 @@ public class Nemo {
 	public void turnRight() {
 		direction = direction.turnRight();
 	}
-
 
 	public int getXCoordinate() {
 		return pos[0];
@@ -69,7 +64,7 @@ public class Nemo {
 	
 	public void executeThisCommand(char command) {
 		moves.get(commands.indexOf(commands.stream().filter(each -> each.getCommandAsChar() == command).findFirst().get())).run();
-
+//		commands.stream().filter(each -> (each.getCommandAsChar()) == command).findFirst().get().getAction().run();
 	}
 	
 	public boolean isCapsuleInNemo() {
@@ -77,9 +72,13 @@ public class Nemo {
 	}
 
 	public void launchCapsule() {
-		depth.get(depth.size() -1).launchCapsule();
+		getCurrentDepthState().launchCapsule();
 		capsuleLauncher.launch();
 		capsuleLauncher = new EmptyCapsuleLaucher();
+	}
+
+	private Depth getCurrentDepthState() {
+		return depth.get(depth.size() - 1);
 	}
 
 }
