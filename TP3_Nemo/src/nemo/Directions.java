@@ -1,9 +1,9 @@
 package nemo;
 
-//import java.util.List;
+import java.util.List;
 
 public abstract class Directions {
-    //public abstract String moveForward();
+	public static List<Directions> cardinalPoints = List.of(Directions.north(), Directions.south(), Directions.east(), Directions.west());
 
     public static Directions west() {
         return new West();
@@ -23,7 +23,5 @@ public abstract class Directions {
 
     public abstract Directions turnLeft();
     public abstract Directions turnRight();
-    public abstract int changeInXAxis();
-    public abstract int changeInYAxis();
-    
+    public abstract Point2D directionVector();
 }

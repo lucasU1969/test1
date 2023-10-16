@@ -6,8 +6,8 @@ public class MoveForward extends Commands {
 		return 'f';
 	}
 
-	public Runnable getAction() {
-		return () -> moveForward();
+	public void exeucuteAction(Nemo submarine) {
+		submarine.moveForward();
 	}
 
 }

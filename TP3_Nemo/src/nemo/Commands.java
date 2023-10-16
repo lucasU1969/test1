@@ -1,38 +1,35 @@
 package nemo;
 
+import java.util.List;
+
 public abstract class Commands {
+	public static List<Commands> availableCommands = List.of( Commands.moveUpwards(), Commands.moveDownwards(), Commands.moveForward(), Commands.turnLeft(), Commands.turnRight(), Commands.launchCapsule());
 
 	public static Commands moveUpwards() {
-		// TODO Auto-generated method stub
 		return new MoveUpwards();
 	}
 
 	public static Commands moveDownwards() {
-		// TODO Auto-generated method stub
 		return new MoveDownwards();
 	}
 
 	public static Commands turnLeft() {
-		// TODO Auto-generated method stub
 		return new TurnLeft();
 	}
 
 	public static Commands turnRight() {
-		// TODO Auto-generated method stub
 		return new TurnRight();
 	}
 
 	public static Commands launchCapsule() {
-		// TODO Auto-generated method stub
 		return new LaunchCapsule();
 	}
 
 	public static Commands moveForward() {
-		// TODO Auto-generated method stub
 		return new MoveForward() ;
 	}
 	
 	public abstract char getCommandAsChar();
-	public abstract Runnable getAction();
+	public abstract void exeucuteAction(Nemo submarine);
 
 }

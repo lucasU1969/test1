@@ -5,9 +5,10 @@ public class MoveUpwards extends Commands {
 	public char getCommandAsChar() {
 		return 'u';
 	}
-	
-	public Runnable getAction() {
-		return () -> moveUpwards();
+
+	public void exeucuteAction(Nemo submarine) {
+		submarine.moveUpwards();
+		
 	}
 
 }

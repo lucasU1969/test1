@@ -14,11 +14,8 @@ public class East extends Directions {
         return "East";
     }
 
-    public int changeInXAxis() {
-    	return 1;
-    }
+	public Point2D directionVector() {
+		return new Point2D(1,0);
+	}
     
-    public int changeInYAxis() {
-    	return 0;
-    }
 }

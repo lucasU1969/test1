@@ -182,7 +182,7 @@ public class NemoTest {
 		Nemo nemo = new Nemo(0, 0, north);
 		nemo.command("dd");
 		assertThrowsLike("Nemo cannot launch the capsule this deep.", () -> nemo.command("m") );
-		assertTrue(nemo.isCapsuleInNemo());
+		assertTrue(nemo.isCapsuleLauncherLoaded());
 	}
 
 
@@ -201,6 +201,6 @@ public class NemoTest {
 	}
 	
 	private void capsuleHasBeenlaunch(Nemo nemo) {
-		assertFalse(nemo.isCapsuleInNemo());
+		assertFalse(nemo.isCapsuleLauncherLoaded());
 	}
 }

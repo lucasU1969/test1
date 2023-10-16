@@ -14,12 +14,8 @@ public class West extends Directions {
         return "West";
     }
     
-    public int changeInXAxis() {
-    	return -1;
-    }
-    
-    public int changeInYAxis() {
-    	return 0;
+    public Point2D directionVector() {
+    	return new Point2D(-1, 0);
     }
 
 }

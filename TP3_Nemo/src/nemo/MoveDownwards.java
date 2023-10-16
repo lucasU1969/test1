@@ -5,9 +5,9 @@ public class MoveDownwards extends Commands {
 	public char getCommandAsChar() {
 		return 'd';
 	}
-
-	public Runnable getAction() {
-		return () -> moveDownwards();
+	
+	public void exeucuteAction(Nemo submarine) {
+		submarine.moveDownwards();
 	}
 
 }

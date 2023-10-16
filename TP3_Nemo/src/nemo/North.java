@@ -13,12 +13,9 @@ public class North extends Directions {
     public String toString(){
         return "North";
     }
+
+	public Point2D directionVector() {
+			return new Point2D(0,1);
+	}
     
-    public int changeInXAxis() {
-    	return 0;
-    }
-    
-    public int changeInYAxis() {
-    	return 1;
-    }
 }

@@ -6,8 +6,8 @@ public class LaunchCapsule extends Commands {
 		return 'm';
 	}
 
-	public Runnable getAction() {
-		return () -> launchCapsule();
+	public void exeucuteAction(Nemo submarine) {
+		submarine.launchCapsule();
 	}
 
 }

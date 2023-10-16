@@ -6,8 +6,8 @@ public class TurnRight extends Commands {
 		return 'r';
 	}
 
-	public Runnable getAction() {
-		return () -> turnRight();
+	public void exeucuteAction(Nemo submarine) {
+		submarine.turnRight();
 	}
 
 }
