@@ -7,13 +7,9 @@ public class Nemo {
 	private Point2D position;
 	private Directions direction;
 	private ArrayList<Depth> depth = new ArrayList<Depth>();
-	private CapsuleLauncher capsuleLauncher = new LoadedCapsuleLauncher();
 	
 	public Nemo(int newXCoordinate, int newYCoordinate, String newDirection) {
-		direction = Directions.cardinalPoints.stream()
-											 .filter( each -> each.toString().equals( newDirection ) )
-											 .findFirst()
-											 .get();
+		direction = Directions.getStringAsADirection(newDirection);
 		position = new Point2D(newXCoordinate, newYCoordinate);
 		depth.add(new Surface());
 	}
@@ -27,7 +23,7 @@ public class Nemo {
 	}
 	
 	public void moveForward() {
-		position.sum( direction.directionVector() );
+		position = position.sum( direction.directionVector() );
 	}
 
 	public void turnLeft() {
@@ -39,9 +35,7 @@ public class Nemo {
 	}
 	
 	public void launchCapsule() {
-		getCurrentDepthState().launchCapsule();
-		capsuleLauncher.launch();
-		capsuleLauncher = new EmptyCapsuleLaucher();
+		getCurrentDepthState().launchCapsule( this );
 	}
 
 	public void command(String commands) {
@@ -49,12 +43,8 @@ public class Nemo {
 				.forEach( command -> executeThisCommand( ( char ) command ) );
 	}
 	
-	public void executeThisCommand(char command) {
-		Commands.availableCommands.stream()
-								  .filter( each -> ( each.getCommandAsChar() ) == command )
-								  .findFirst()
-								  .get()
-								  .exeucuteAction( this );
+	public void executeThisCommand( char commandAsChar ) {
+		Commands.getCommandFor(commandAsChar).exeucuteAction(this);
 	}
 	
 	public int getXCoordinate() {
@@ -75,10 +65,6 @@ public class Nemo {
 	
 	public boolean isOnTheSurface() {
 		return getZCoordinate() == 0;
-	}
-	
-	public boolean isCapsuleLauncherLoaded() {
-		return capsuleLauncher.isLoaded();
 	}
 
 	private Depth getCurrentDepthState() {

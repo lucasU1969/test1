@@ -15,7 +15,8 @@ public class Deep extends Depth {
 		return this;
 	}
 
-	public void launchCapsule() {
+	public void launchCapsule(Nemo submarine) {
+		submarine = null;
 		throw new RuntimeException("Nemo cannot launch the capsule this deep.");
 	}
 	

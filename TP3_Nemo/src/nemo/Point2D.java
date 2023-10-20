@@ -17,8 +17,7 @@ public class Point2D {
 		return yCoordinate;
 	}
 	
-	public void sum(Point2D adderPoint) {
-		xCoordinate += adderPoint.getXCoordinate();
-		yCoordinate += adderPoint.getYCoordinate();
+	public Point2D sum(Point2D adderPoint) {
+		return new Point2D(xCoordinate + adderPoint.getXCoordinate(), yCoordinate + adderPoint.getYCoordinate());
 	}
 }

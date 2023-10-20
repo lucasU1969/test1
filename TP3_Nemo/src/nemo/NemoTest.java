@@ -1,7 +1,7 @@
 package nemo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+//import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,19 +11,17 @@ import org.junit.jupiter.api.function.Executable;
 
 public class NemoTest {
 
-	private String north = "North";
-
 	@Test public void test00NemoIsOnTheSurfaceWhenCreated() {
-		assertTrue(new Nemo(0,0, north).isOnTheSurface());
+		assertTrue(new Nemo(0,0, "North").isOnTheSurface());
 	}
 
 	@Test public void test01CordinatesAreCorrectWhenNemoIsCreated() {
-		assertEquals(0, new Nemo(0,0, north).getXCoordinate());
-		assertEquals(0, new Nemo(0,0, north).getYCoordinate());
+		assertEquals(0, new Nemo(0,0, "North").getXCoordinate());
+		assertEquals(0, new Nemo(0,0, "North").getYCoordinate());
 	}
 
 	@Test public void test02NemoFacesTheCorrectDirectionWhenCreatedFacingNorth() {
-		assertEquals("North", new Nemo(0,0, north).getDirection());
+		assertEquals("North", new Nemo(0,0, "North").getDirection());
 	}
 
 	@Test public void test03NemoFacesTheCorrectDirectionWhenCreatedFacingSouth() {
@@ -39,7 +37,7 @@ public class NemoTest {
 	}
 
 	@Test public void test06NemoDoesntMoveWithAVoidCommand() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("");
 		assertEquals(0, nemo.getXCoordinate());
 		assertEquals(0, nemo.getYCoordinate());
@@ -47,45 +45,45 @@ public class NemoTest {
 	}
 
 	@Test public void test07NemoMovesDownwardsCorrectly() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("d");
 		assertEquals(-1, nemo.getZCoordinate());
 	}
 
 	@Test public void test08MovingDownwardsOnlyChangesZCoordinate() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("d");
 		assertEquals(0, nemo.getXCoordinate());
 		assertEquals(0, nemo.getYCoordinate());
 	}
 
 	@Test public void test09NemoMovesUpwardCorrectly() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("du");
 		assertEquals(0, nemo.getZCoordinate());
 	}
 
 	@Test public void test10MovingUpwardsONlyChangesZCoordinate() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("du");
 		assertEquals(0, nemo.getXCoordinate());
 		assertEquals(0, nemo.getYCoordinate());
 	}
 
-	@Test public void test11NemoCannotFly() {
-		Nemo nemo = new Nemo(0,0, north);
+	@Test public void test11NemoCantFly() {
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("u");
 		assertEquals(0,nemo.getZCoordinate());
 	}
 
 	@Test public void test12NemoCanGoToTheSurfaceAndReturn() {
-		Nemo nemo = new Nemo(0, 0, north);
+		Nemo nemo = new Nemo(0, 0, "North");
 		nemo.command("dudu");
 		assertTrue(nemo.isOnTheSurface());
 	}
 	
 	@Test public void test13NemoFacingNorthMovesForwardsCorrectly() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("f");
 		assertEquals(1, nemo.getYCoordinate());
 	}
@@ -109,7 +107,7 @@ public class NemoTest {
 	}
 	
 	@Test public void test17NemoFacingNorthTurnsRightCorrectly() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("r");
 		assertEquals("East", nemo.getDirection());
 	}
@@ -133,7 +131,7 @@ public class NemoTest {
 	}
 
 	@Test public void test21NemoDoesntMoveWhenTurningRight() {
-		Nemo nemo = new Nemo(0, 0, north);
+		Nemo nemo = new Nemo(0, 0, "North");
 		nemo.command("r");
 		assertEquals(0, nemo.getXCoordinate());
 		assertEquals(0, nemo.getYCoordinate());
@@ -141,7 +139,7 @@ public class NemoTest {
 	}
 
 	@Test public void test22NemoFacingNorthTurnsLeftCorrectly() {
-		Nemo nemo = new Nemo(0,0, north);
+		Nemo nemo = new Nemo(0,0, "North");
 		nemo.command("l");
 		assertEquals("West", nemo.getDirection());
 	}
@@ -165,32 +163,17 @@ public class NemoTest {
 	}
 
 	@Test public void test26NemoDoesntMoveWhenTurningLeft() {
-		Nemo nemo = new Nemo(0, 0, north);
+		Nemo nemo = new Nemo(0, 0, "North");
 		nemo.command("l");
 		assertEquals(0, nemo.getXCoordinate());
 		assertEquals(0, nemo.getYCoordinate());
 		assertEquals(0, nemo.getZCoordinate());
 	}
 
-	@Test public void test27NemoLaunchesTehCapsuleCorrectly() {
-		Nemo nemo = new Nemo(0, 0, north);
-		nemo.command("m");
-		capsuleHasBeenlaunch(nemo);
-	}
-
-	@Test public void test28NemoCantLaunchCapsuleBelowSurface(){
-		Nemo nemo = new Nemo(0, 0, north);
+	@Test public void test27NemoCantLaunchCapsuleBelowSurface(){
+		Nemo nemo = new Nemo(0, 0, "North");
 		nemo.command("dd");
 		assertThrowsLike("Nemo cannot launch the capsule this deep.", () -> nemo.command("m") );
-		assertTrue(nemo.isCapsuleLauncherLoaded());
-	}
-
-
-	@Test public void test29NemoCantLaunchCapsuleTwice(){
-		Nemo nemo = new Nemo(0, 0, north);
-		nemo.command("m");
-		assertThrowsLike("Nemo cannot launch the capsule twice.", () -> nemo.command("m"));
-		capsuleHasBeenlaunch(nemo);
 	}
 
 	
@@ -199,8 +182,5 @@ public class NemoTest {
 	private void assertThrowsLike(String message, Executable ex) {
 		assertEquals(message, assertThrows(RuntimeException.class, ex).getMessage());
 	}
-	
-	private void capsuleHasBeenlaunch(Nemo nemo) {
-		assertFalse(nemo.isCapsuleLauncherLoaded());
-	}
+
 }

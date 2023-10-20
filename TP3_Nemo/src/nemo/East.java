@@ -3,11 +3,11 @@ package nemo;
 public class East extends Directions {
 
     public Directions turnLeft(){
-        return Directions.north();
+    	return new North();
     }
 
     public Directions turnRight(){
-        return Directions.south();
+    	return new South();
     }
 
     public String toString(){

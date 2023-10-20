@@ -2,7 +2,7 @@ package nemo;
 
 public class Underwater extends Depth {
 
-    public void launchCapsule() {}
+    public void launchCapsule(Nemo submarine) {}
 	
 	public int getDepth() {
 		return -1;

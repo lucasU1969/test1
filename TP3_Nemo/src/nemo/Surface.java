@@ -6,7 +6,7 @@ public class Surface extends Depth {
 		return new Underwater();
 	}
 	
-	public void launchCapsule() {}
+	public void launchCapsule(Nemo submarine) {}
 	
 	public int getDepth() {
 		return 0;
