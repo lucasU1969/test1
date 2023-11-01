@@ -34,29 +34,28 @@ public class LineTest {
         assertFalse( linea.isRowWithinBounds( 6));
     }
 
-//    @Test public void test05LineGameIsNotFinishedWhenCreated() {
-//        Linea linea = new Linea( 3, 5, '*' );
-//        assertFalse( linea.finished() );
-//    }
-    @Test public void test05LineaShowsIsCorrectFor1x1Board() {
+    @Test public void test05EmptyLineaShowsIsCorrectFor1x1Board() {
         Linea linea = new Linea( 1, 1, '*' );
         assertEquals( "| - |\n",
                 linea.show() );
     }
-
-    @Test public void test06LineaShowsAnArbitraryNumberOfColumns() {
+    @Test public void test06EmptyLineaShowsAnArbitraryNumberOfColumns() {
         Linea linea = new Linea( 3, 1, '*' );
         assertEquals( "| - - - |\n",
                 linea.show() );
     }
 
-    @Test public void test07LineaShowsAnArtibraryNumberOfRows() {
+    @Test public void test07EmptyLineaShowsAnArbitraryNumberOfRows() {
         Linea linea = new Linea( 1, 3, '*' );
-        assertEquals( "| - |\n" +
-                      "| - |\n" +
-                      "| - |\n",
+        assertEquals(
+                        "| - |\n" +
+                        "| - |\n" +
+                        "| - |\n",
                 linea.show() );
     }
 
-
+    @Test public void test08LineGameIsNotFinishedWhenCreated() {
+        Linea linea = new Linea( 3, 5, '*' );
+        assertFalse( linea.finished() );
+    }
 }
