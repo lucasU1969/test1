@@ -1,10 +1,11 @@
-package linea2;
+package linea;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LineaTest {
 
@@ -22,9 +23,14 @@ public class LineaTest {
     }
 
     @Test public void test03RedStarts() {
+        Linea line = gameWithARedPiece();
+        assertTrue(line.positionContains(1,1, 'R'));
+    }
+
+    private Linea gameWithARedPiece() {
         Linea line = new Linea(3, 4, 'C');
         line.playRedkAt(1);
-        assertTrue(line.positionContains(1,1, 'R'));
+        return line;
     }
 
     @Test public void test04GameFailsWhenBlueStarts() {
@@ -33,14 +39,12 @@ public class LineaTest {
     }
 
     @Test public void test05RedTriesToPlayTwice() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(1);
+        Linea line = gameWithARedPiece();
         assertThrows( Exception.class, () -> line.playRedkAt(1));
     }
 
     @Test public void test06BlueTriesToPlayTwice() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(1);
+        Linea line = gameWithARedPiece();
         line.playBlueAt(1);
         assertThrows( Exception.class, () -> line.playBlueAt(1));
     }
@@ -64,8 +68,7 @@ public class LineaTest {
     }
 
     @Test public void test10AddingAPieceUponAnother() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(1);
+        Linea line = gameWithARedPiece();
         line.playBlueAt(1);
         assertTrue(line.positionContains(1,1, 'R'));
         assertTrue(line.positionContains(1,2, 'B'));
@@ -82,8 +85,7 @@ public class LineaTest {
     }
 
     @Test public void test12TryingToAddARedPieceToAFullColumn() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(1);
+        Linea line = gameWithARedPiece();
         line.playBlueAt(1);
         line.playRedkAt(1);
         line.playBlueAt(1);
@@ -91,8 +93,7 @@ public class LineaTest {
     }
 
     @Test public void test13GameFinishesInCaseOfDraw() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(1);
+        Linea line = gameWithARedPiece();
         line.playBlueAt(2);
         line.playRedkAt(3);
         line.playBlueAt(1);
@@ -340,8 +341,7 @@ public class LineaTest {
     }
 
     @Test public void test30RedWinsVerticallyWithGameModeC() {
-        Linea line = new Linea(3, 4, 'C');
-        line.playRedkAt(1);
+        Linea line = gameWithARedPiece();
         line.playBlueAt(2);
         line.playRedkAt(1);
         line.playBlueAt(2);
@@ -359,7 +359,7 @@ public class LineaTest {
         line.playBlueAt( 1 );
         line.playRedkAt( 2 );
         line.playBlueAt( 1 );
-        line.playRedkAt( 2 );
+        line.playRedkAt( 3 );
         line.playBlueAt( 1 );
         assertTrue( line.won( 'B' ) );
     }
@@ -453,6 +453,65 @@ public class LineaTest {
         line.playRedkAt(2);
         line.playBlueAt(2);
         assertTrue( line.won('B') );
+    }
+
+    @Test public void test38GetStringWorksForAnEmptySlot() {
+        Linea line = new Linea(1, 1, 'C');
+        assertEquals( "-", line.getPositionAsString(1, 1) );
+    }
+
+    @Test public void test39GetRedPositionString() {
+        Linea line = new Linea(1, 1, 'C');
+        line.playRedkAt(1);
+        assertEquals( "R", line.getPositionAsString(1, 1) );
+    }
+
+    @Test public void test40GetBluePositionString() {
+        Linea line = new Linea(2, 2, 'C');
+        line.playRedkAt(2);
+        line.playBlueAt(1);
+        assertEquals( "B", line.getPositionAsString(1, 1) );
+    }
+
+    @Test public void test41ShowIsCorrectForASmallBoard() {
+        Linea line = new Linea(1, 1, 'C');
+        assertEquals( "| - |\n", line.show() );
+    }
+
+    @Test public void test42ShowIsCorrectAfterAddingARedPiece() {
+        Linea line = new Linea(1, 1, 'C');
+        line.playRedkAt(1);
+        assertEquals( "| R |\n", line.show() );
+    }
+
+    @Test public void test43ShowIsCorrectAfterAddingABluePiece() {
+        Linea line = new Linea(2, 1, 'C');
+        line.playRedkAt(2);
+        line.playBlueAt(1);
+        assertEquals( "| B | R |\n", line.show() );
+    }
+
+    @Test public void test44AddingARedPieceOnABiggerBoard() {
+        Linea line = new Linea( 5, 5, 'C');
+        line.playRedkAt(1);
+        assertEquals( "| - | - | - | - | - |\n" +
+                      "| - | - | - | - | - |\n" +
+                      "| - | - | - | - | - |\n" +
+                      "| - | - | - | - | - |\n" +
+                      "| R | - | - | - | - |\n",
+                line.show());
+    }
+
+    @Test public void test45TyingToPlayAfterTheGameFinished() {
+        Linea line = gameWithARedPiece();
+        line.playBlueAt(2);
+        line.playRedkAt(1);
+        line.playBlueAt(2);
+        line.playRedkAt(1);
+        line.playBlueAt(2);
+        line.playRedkAt(1);
+        assertTrue( line.won('R') );
+        assertThrows( Exception.class , () -> line.playBlueAt(3));
     }
 
 }

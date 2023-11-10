@@ -1,4 +1,4 @@
-package linea2;
+package linea;
 
 public class Game {
         public static void main( String[] args) throws Exception {
